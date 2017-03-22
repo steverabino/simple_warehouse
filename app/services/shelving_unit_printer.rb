@@ -9,7 +9,7 @@ class ShelvingUnitPrinter
       output += print_shelf_top
       output += "|"
       row.each do |column|
-        product_code = column.nil? ? " " : column.product
+        product_code = column.nil? ? " " : column.product_code
         output += print_shelf_middle(product_code)
       end
       output += "\n"

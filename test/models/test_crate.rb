@@ -25,6 +25,6 @@ class TestCrate < Minitest::Test
   end
 
   def test_that_crate_has_correct_product
-    assert_equal "P", @crate.product
+    assert_equal "P", @crate.product_code
   end
 end

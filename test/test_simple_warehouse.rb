@@ -27,8 +27,8 @@ class TestSimpleWarehouse < Minitest::Test
   def test_that_store_command_creates_storage
     @app.interpret_command("init 3 2")
     @app.interpret_command("store 1 1 2 1 P")
-    assert_equal "P", @app.shelving_unit.in_position(1,1).product
-    assert_equal "P", @app.shelving_unit.in_position(2,1).product
+    assert_equal "P", @app.shelving_unit.in_position(1,1).product_code
+    assert_equal "P", @app.shelving_unit.in_position(2,1).product_code
   end
 
   def test_that_locate_command_shows_locations
