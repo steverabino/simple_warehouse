@@ -11,11 +11,8 @@ class ShelvingUnit
   end
 
   def in_position(x, y)
-    begin
-      @representation[x][y]
-    rescue NoMethodError
-      false
-    end
+    return false if (x > @width - 1 || y > @height - 1)
+    @representation[y][x]
   end
 
   private
