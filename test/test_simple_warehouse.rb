@@ -45,6 +45,14 @@ class TestSimpleWarehouse < Minitest::Test
     assert_equal "We out out of stock of product Q", output
   end
 
+  def test_that_remove_command_removes_the_product
+    @app.interpret_command("init 3 2")
+    @app.interpret_command("store 1 1 2 1 P")
+    output = @app.interpret_command("remove 2 1")
+    assert_nil @app.shelving_unit.in_position(2, 1)
+    assert_equal "Product P removed from location [x: 2, y: 1]", output
+  end
+
   def test_print_command
     @app.interpret_command("init 3 2")
     @app.interpret_command("store 1 0 2 1 P")

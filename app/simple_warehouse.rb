@@ -4,6 +4,7 @@ require './app/models/shelving_unit'
 require './app/models/crate'
 require './app/services/crate_storer'
 require './app/services/crate_locator'
+require './app/services/crate_remover'
 require './app/services/shelving_unit_printer'
 
 class SimpleWarehouse
@@ -28,6 +29,8 @@ class SimpleWarehouse
       output = store_crate(args)
     when 'locate'
       output = locate_crate(args)
+    when 'remove'
+      output = remove_crate(args)
     when 'view'
       output = @shelving_unit.print_to_screen
     when 'exit'
@@ -78,6 +81,16 @@ exit             Exits the application.'
         location_output += "[x: #{location[0]}, y: #{location[1]}], "
       end
       return "Product #{args[0]} can be found at the following locations: #{location_output.chop.chop}"
+    end
+  end
+
+  def remove_crate(args)
+    product = @shelving_unit.in_position(args[0].to_i, args[1].to_i)
+    if product.nil?
+      return "There is no product at location: [x: #{args[0]}, y: #{args[1]}]"
+    else
+      CrateRemover.new(@shelving_unit, args[0].to_i, args[1].to_i).call
+      return "Product #{product.product} removed from location [x: #{args[0]}, y: #{args[1]}]"
     end
   end
 
