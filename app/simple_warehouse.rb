@@ -3,7 +3,7 @@
 require './app/models/shelving_unit'
 require './app/models/crate'
 require './app/services/crate_storer'
-
+require './app/services/crate_locator'
 
 
 class SimpleWarehouse
@@ -26,6 +26,8 @@ class SimpleWarehouse
       output = create_empty_shelving_unit(args)
     when 'store'
       output = store_crate(args)
+    when 'locate'
+      output = locate_crate(args)
     when 'exit'
       output = exit
     else
@@ -61,6 +63,19 @@ exit             Exits the application.'
       return "Crate of product #{args[4]} has been placed at coords #{args[0]}, #{args[1]}"
     else
       return "Invalid placement of crate; please try again."
+    end
+  end
+
+  def locate_crate(args)
+    locations = CrateLocator.new(@shelving_unit, args[0]).call
+    if locations.empty?
+      return "We out out of stock of product #{args[0]}"
+    else
+      location_output = ""
+      locations.each do |location|
+        location_output += "[x: #{location[0]}, y: #{location[1]}], "
+      end
+      return "Product #{args[0]} can be found at the following locations: #{location_output.chop.chop}"
     end
   end
 
