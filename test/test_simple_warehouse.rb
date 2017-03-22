@@ -19,6 +19,11 @@ class TestSimpleWarehouse < Minitest::Test
     assert_equal 3, @app.shelving_unit.height
   end
 
+  def test_that_init_command_creates_correct_output
+    output = @app.interpret_command("init 3 2")
+    assert_equal "Empty shelving unit of width: 3 and height: 2 created", output
+  end
+
   def test_that_store_command_creates_storage
     @app.interpret_command("init 3 2")
     @app.interpret_command("store 1 1 2 1 P")
@@ -40,8 +45,10 @@ class TestSimpleWarehouse < Minitest::Test
     assert_equal "We out out of stock of product Q", output
   end
 
-  def test_that_init_command_creates_correct_output
-    output = @app.interpret_command("init 3 2")
-    assert_equal "Empty shelving unit of width: 3 and height: 2 created", output
+  def test_print_command
+    @app.interpret_command("init 3 2")
+    @app.interpret_command("store 1 0 2 1 P")
+    output = @app.interpret_command("view")
+    assert_equal "|   |   |   |\n|   |   |   |\n|___|___|___|\n|   |   |   |\n|   | P | P |\n|___|___|___|", output
   end
 end

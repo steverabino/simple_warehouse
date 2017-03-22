@@ -4,7 +4,7 @@ require './app/models/shelving_unit'
 require './app/models/crate'
 require './app/services/crate_storer'
 require './app/services/crate_locator'
-
+require './app/services/shelving_unit_printer'
 
 class SimpleWarehouse
   def run
@@ -28,6 +28,8 @@ class SimpleWarehouse
       output = store_crate(args)
     when 'locate'
       output = locate_crate(args)
+    when 'view'
+      output = @shelving_unit.print_to_screen
     when 'exit'
       output = exit
     else
