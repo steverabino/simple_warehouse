@@ -8,26 +8,28 @@ require './app/services/crate_storer'
 class TestCrateLocator < Minitest::Test
   def setup
     @shelving_unit = ShelvingUnit.new(3, 3)
-    @crate = Crate.new(2, 1, "P")
-    CrateStorer.new(@shelving_unit, 1, 0, @crate).call
+    @crate = Crate.new(1, 0, 2, 1, "P")
+    CrateStorer.new(@shelving_unit, @crate).call
   end
 
   def test_that_valid_crate_is_located_correctly
     locations = CrateLocator.new(@shelving_unit, "P").call
-    assert_equal [[1, 0], [2, 0]], locations
+    assert_equal [[1, 0]], locations
   end
 
   def test_that_multiple_valid_crates_are_located_correctly
-    CrateStorer.new(@shelving_unit, 1, 2, @crate).call
+    CrateStorer.new(@shelving_unit, @crate).call
+    crate = Crate.new(0, 1, 2, 1, "P")
+    CrateStorer.new(@shelving_unit, crate).call
     locations = CrateLocator.new(@shelving_unit, "P").call
-    assert_equal [[1, 0], [2, 0], [1, 2], [2, 2]], locations
+    assert_equal [[1, 0], [0, 1]], locations
   end
 
   def test_that_alternative_products_are_ignored
-    @crate2 = Crate.new(2, 1, "Q")
-    CrateStorer.new(@shelving_unit, 1, 2, @crate2).call
+    crate = Crate.new(1, 2, 2, 1, "Q")
+    CrateStorer.new(@shelving_unit, crate).call
     locations = CrateLocator.new(@shelving_unit, "P").call
-    assert_equal [[1, 0], [2, 0]], locations
+    assert_equal [[1, 0]], locations
   end
 
   def test_that_invalid_product_is_not_located

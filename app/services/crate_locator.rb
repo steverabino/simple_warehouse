@@ -1,18 +1,20 @@
 class CrateLocator
-  def initialize(shelving_unit, product)
+  def initialize(shelving_unit, product_code)
     @shelving_unit = shelving_unit
-    @product = product
+    @product_code = product_code
   end
 
   def call
-    locations = []
-    @shelving_unit.representation.each.with_index do |row, ri|
-      row.each.with_index do |column, ci|
+    crates = []
+    @shelving_unit.representation.each do |row|
+      row.each do |column|
         unless column.nil?
-          locations << [ci, ri] if column.product == @product
+          crates |= [column] if column.product_code == @product_code
         end
       end
     end
-    locations
+    locations = crates.each.map do |crate|
+      crate = [crate.x, crate.y]
+    end
   end
 end
