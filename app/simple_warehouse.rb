@@ -1,20 +1,34 @@
-class SimpleWarehouse
+# TODO: require_all gem may come in handy!
 
+require './app/models/shelving_unit'
+
+class SimpleWarehouse
   def run
     @live = true
     puts 'Type `help` for instructions on usage'
     while @live
       print '> '
-      command = gets.chomp
-      case command
-        when 'help'
-          show_help_message
-        when 'exit'
-          exit
-        else
-          show_unrecognized_message
-      end
+      interpret_command(gets.chomp)
     end
+  end
+
+  def interpret_command(command)
+    arr = command.split(" ")
+    verb, *args = arr
+    case verb
+    when 'help'
+      show_help_message
+    when 'init'
+      @shelving_unit = ShelvingUnit.new(args[0].to_i, args[1].to_i)
+    when 'exit'
+      exit
+    else
+      show_unrecognized_message
+    end
+  end
+
+  def shelving_unit
+    @shelving_unit
   end
 
   private
@@ -37,5 +51,4 @@ exit             Exits the application.'
     puts 'Thank you for using simple_warehouse!'
     @live = false
   end
-
 end
