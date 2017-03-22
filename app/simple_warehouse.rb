@@ -19,7 +19,7 @@ class SimpleWarehouse
     when 'help'
       show_help_message
     when 'init'
-      @shelving_unit = ShelvingUnit.new(args[0].to_i, args[1].to_i)
+      create_empty_shelving_unit(args)
     when 'exit'
       exit
     else
@@ -41,6 +41,11 @@ locate P         Show a list of positions where product number can be found.
 remove X Y       Remove the crate at positon X,Y.
 view             Show a representation of the current state of the warehouse, marking each position as filled or empty.
 exit             Exits the application.'
+  end
+
+  def create_empty_shelving_unit(args)
+    @shelving_unit = ShelvingUnit.new(args[0].to_i, args[1].to_i)
+    puts "Empty shelving unit of width: #{args[0]} and height: #{args[1]} created"
   end
 
   def show_unrecognized_message
