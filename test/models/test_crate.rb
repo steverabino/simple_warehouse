@@ -5,7 +5,7 @@ require './app/models/shelving_unit'
 class TestCrate < Minitest::Test
   def setup
     @shelving_unit = ShelvingUnit.new(2, 5)
-    @crate = Crate.new(0, 4, 2, 1, "P")
+    @crate = Crate.new(2, 1, "P")
   end
 
   def test_that_crate_has_correct_width
@@ -18,9 +18,5 @@ class TestCrate < Minitest::Test
 
   def test_that_crate_has_correct_product
     assert_equal "P", @crate.product
-  end
-
-  def test_that_crate_is_in_correct_location
-    assert_equal @crate, @shelving_unit.reprsentation[0, 4]
   end
 end
