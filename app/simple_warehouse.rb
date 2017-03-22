@@ -17,14 +17,15 @@ class SimpleWarehouse
     verb, *args = arr
     case verb
     when 'help'
-      show_help_message
+      output = show_help_message
     when 'init'
-      create_empty_shelving_unit(args)
+      output = create_empty_shelving_unit(args)
     when 'exit'
-      exit
+      output = exit
     else
-      show_unrecognized_message
+      output = show_unrecognized_message
     end
+    ENV['testmode'] ? output : puts(output)
   end
 
   def shelving_unit
@@ -34,7 +35,7 @@ class SimpleWarehouse
   private
 
   def show_help_message
-    puts 'help             Shows this help message
+    return 'help             Shows this help message
 init W H         (Re)Initialises the application as a W x H warehouse, with all spaces empty.
 store X Y W H P  Stores a crate of product number P and of size W x H at position X,Y.
 locate P         Show a list of positions where product number can be found.
@@ -45,15 +46,15 @@ exit             Exits the application.'
 
   def create_empty_shelving_unit(args)
     @shelving_unit = ShelvingUnit.new(args[0].to_i, args[1].to_i)
-    puts "Empty shelving unit of width: #{args[0]} and height: #{args[1]} created"
+    return "Empty shelving unit of width: #{args[0]} and height: #{args[1]} created"
   end
 
   def show_unrecognized_message
-    puts 'Command not found. Type `help` for instructions on usage'
+    return 'Command not found. Type `help` for instructions on usage'
   end
 
   def exit
-    puts 'Thank you for using simple_warehouse!'
     @live = false
+    return 'Thank you for using simple_warehouse!'
   end
 end
