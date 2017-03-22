@@ -11,7 +11,11 @@ class ShelvingUnit
   end
 
   def in_position(x, y)
-    @representation[x][y]
+    begin
+      @representation[x][y]
+    rescue NoMethodError
+      false
+    end
   end
 
   private

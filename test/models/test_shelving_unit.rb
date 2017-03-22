@@ -24,6 +24,11 @@ class TestShelvingUnit < Minitest::Test
     assert_nil position
   end
 
+  def test_that_shelf_outside_bounds_is_reported
+    position = @shelving_unit.in_position(8, 8)
+    assert_equal false, position
+  end
+
   def test_that_filled_shelf_position_reports_crate
     crate = Crate.new(1, 1, "P")
     @shelving_unit.representation[1][1] = crate
