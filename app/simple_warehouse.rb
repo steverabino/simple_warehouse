@@ -1,6 +1,10 @@
 # TODO: require_all gem may come in handy!
 
 require './app/models/shelving_unit'
+require './app/models/crate'
+require './app/services/crate_storer'
+
+
 
 class SimpleWarehouse
   def run
@@ -20,6 +24,8 @@ class SimpleWarehouse
       output = show_help_message
     when 'init'
       output = create_empty_shelving_unit(args)
+    when 'store'
+      output = store_crate(args)
     when 'exit'
       output = exit
     else
@@ -47,6 +53,15 @@ exit             Exits the application.'
   def create_empty_shelving_unit(args)
     @shelving_unit = ShelvingUnit.new(args[0].to_i, args[1].to_i)
     return "Empty shelving unit of width: #{args[0]} and height: #{args[1]} created"
+  end
+
+  def store_crate(args)
+    crate = Crate.new(args[2].to_i, args[3].to_i, args[4])
+    if CrateStorer.new(@shelving_unit, args[0].to_i, args[1].to_i, crate).call
+      return "Crate of product #{args[4]} has been placed at coords #{args[0]}, #{args[1]}"
+    else
+      return "Invalid placement of crate; please try again."
+    end
   end
 
   def show_unrecognized_message
