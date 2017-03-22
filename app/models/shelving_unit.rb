@@ -15,6 +15,10 @@ class ShelvingUnit
     @representation[y][x]
   end
 
+  def print_to_screen
+    ShelvingUnitPrinter.new(self).call
+  end
+
   private
 
   def get_empty_representation(width, height)
