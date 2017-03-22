@@ -1,11 +1,12 @@
 class CrateRemover
-  def initialize(shelving_unit, x, y)
+  def initialize(shelving_unit, crate)
     @shelving_unit = shelving_unit
-    @x = x
-    @y = y
+    @crate = crate
   end
 
   def call
-    @shelving_unit.representation[@y][@x] = nil
+    @crate.all_crate_coords.each do |coords|
+      @shelving_unit.representation[coords[:y]][coords[:x]] = nil
+    end
   end
 end

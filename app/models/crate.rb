@@ -8,4 +8,14 @@ class Crate
     @height = height
     @product_code = product_code
   end
+
+  def all_crate_coords
+    arr = []
+    @height.times do |row|
+      @width.times do |column|
+        arr << { x: @x + column, y: @y + row }
+      end
+    end
+    arr
+  end
 end

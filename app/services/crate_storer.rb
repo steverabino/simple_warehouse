@@ -5,7 +5,7 @@ class CrateStorer
   end
 
   def call
-    coords = crate_position_coordinates(@crate)
+    coords = @crate.all_crate_coords
     if crate_fits_in_shelving_unit?(coords)
       coords.each { |coord| @shelving_unit.representation[coord[:y]][coord[:x]] = @crate }
     else
