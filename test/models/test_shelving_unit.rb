@@ -30,7 +30,7 @@ class TestShelvingUnit < Minitest::Test
   end
 
   def test_that_filled_shelf_position_reports_crate
-    crate = Crate.new(1, 1, "P")
+    crate = Crate.new(1, 1, 1, 1, "P")
     @shelving_unit.representation[1][1] = crate
     position = @shelving_unit.in_position(1, 1)
     assert_equal crate, position

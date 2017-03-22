@@ -13,7 +13,7 @@ class CrateLocator
         end
       end
     end
-    locations = crates.each.map do |crate|
+    crates.each.map do |crate|
       crate = [crate.x, crate.y]
     end
   end

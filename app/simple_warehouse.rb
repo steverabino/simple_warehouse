@@ -63,8 +63,8 @@ exit             Exits the application.'
   end
 
   def store_crate(args)
-    crate = Crate.new(args[2].to_i, args[3].to_i, args[4])
-    if CrateStorer.new(@shelving_unit, args[0].to_i, args[1].to_i, crate).call
+    crate = Crate.new(args[0].to_i, args[1].to_i, args[2].to_i, args[3].to_i, args[4])
+    if CrateStorer.new(@shelving_unit, crate).call
       return "Crate of product #{args[4]} has been placed at coords #{args[0]}, #{args[1]}"
     else
       return "Invalid placement of crate; please try again."
@@ -85,12 +85,12 @@ exit             Exits the application.'
   end
 
   def remove_crate(args)
-    product = @shelving_unit.in_position(args[0].to_i, args[1].to_i)
-    if product.nil?
+    crate = @shelving_unit.in_position(args[0].to_i, args[1].to_i)
+    if crate.nil?
       return "There is no product at location: [x: #{args[0]}, y: #{args[1]}]"
     else
-      CrateRemover.new(@shelving_unit, args[0].to_i, args[1].to_i).call
-      return "Product #{product.product} removed from location [x: #{args[0]}, y: #{args[1]}]"
+      CrateRemover.new(@shelving_unit, crate).call
+      return "Product #{crate.product_code} removed from location [x: #{args[0]}, y: #{args[1]}] (crate origin: [x: #{crate.x}, y: #{crate.y}])"
     end
   end
 

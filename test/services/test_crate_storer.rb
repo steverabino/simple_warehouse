@@ -41,7 +41,7 @@ class TestCrateStorer < Minitest::Test
   def test_that_crate_cannot_be_stored_over_bounds_of_another_crate
     CrateStorer.new(@shelving_unit, @crate).call
     crate = Crate.new(2, 0, 2, 1, "P")
-    storage = CrateStorer.new(@shelving_unit, @crate).call
+    storage = CrateStorer.new(@shelving_unit, crate).call
     assert_equal false, storage
   end
 end

@@ -10,7 +10,7 @@ class ShelvingUnitPrinter
       output += "|"
       row.each do |column|
         product_code = column.nil? ? " " : column.product_code
-        output += print_shelf_middle(product_code)
+        output += " #{product_code} |"
       end
       output += "\n"
       output += print_shelf_bottom
@@ -24,10 +24,6 @@ class ShelvingUnitPrinter
     output = "|"
     output += "   |" * @shelving_unit.width
     output += "\n"
-  end
-
-  def print_shelf_middle(product_code)
-    output = " #{product_code} |"
   end
 
   def print_shelf_bottom

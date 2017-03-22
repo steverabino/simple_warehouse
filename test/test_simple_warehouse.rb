@@ -35,7 +35,7 @@ class TestSimpleWarehouse < Minitest::Test
     @app.interpret_command("init 3 2")
     @app.interpret_command("store 1 1 2 1 P")
     output = @app.interpret_command("locate P")
-    assert_equal "Product P can be found at the following locations: [x: 1, y: 1], [x: 2, y: 1]", output
+    assert_equal "Product P can be found at the following locations: [x: 1, y: 1]", output
   end
 
   def test_that_locate_command_shows_out_of_stock_message
@@ -50,7 +50,7 @@ class TestSimpleWarehouse < Minitest::Test
     @app.interpret_command("store 1 1 2 1 P")
     output = @app.interpret_command("remove 2 1")
     assert_nil @app.shelving_unit.in_position(2, 1)
-    assert_equal "Product P removed from location [x: 2, y: 1]", output
+    assert_equal "Product P removed from location [x: 2, y: 1] (crate origin: [x: 1, y: 1])", output
   end
 
   def test_print_command
