@@ -12,7 +12,12 @@ class ShelvingUnit
 
   def in_position(x, y)
     return false if (x > @width - 1 || y > @height - 1)
-    @representation[y][x]
+
+    representation[y][x]
+  end
+
+  def update_representation(coords, crate)
+    representation[coords[:y]][coords[:x]] = crate
   end
 
   def print_to_screen

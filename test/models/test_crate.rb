@@ -8,23 +8,27 @@ class TestCrate < Minitest::Test
     @crate = Crate.new(0, 1, 2, 3, "P")
   end
 
-  def test_that_crate_has_correct_x
+  def test_that_crate_has_correct_x_value
     assert_equal 0, @crate.x
   end
 
-  def test_that_crate_has_correct_y
+  def test_that_crate_has_correct_y_value
     assert_equal 1, @crate.y
   end
 
-  def test_that_crate_has_correct_width
+  def test_that_crate_has_correct_width_value
     assert_equal 2, @crate.width
   end
 
-  def test_that_crate_has_correct_height
+  def test_that_crate_has_correct_height_value
     assert_equal 3, @crate.height
   end
 
-  def test_that_crate_has_correct_product
+  def test_that_crate_has_correct_product_value
     assert_equal "P", @crate.product_code
+  end
+
+  def test_that_crate_has_correct_all_coordinates
+    assert_equal [{ x: 0, y: 1 }, {x: 1, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 0, y: 3 }, { x: 1, y: 3 }], @crate.all_crate_coords
   end
 end

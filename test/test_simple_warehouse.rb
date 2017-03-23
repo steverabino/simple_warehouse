@@ -6,6 +6,11 @@ class TestSimpleWarehouse < Minitest::Test
     @app = SimpleWarehouse.new
   end
 
+  def test_help_command_gives_help
+    output = @app.interpret_command("help")
+    assert_includes output, "store X Y W H P  Stores a crate of product number P"
+  end
+
   def test_that_init_command_creates_shelving_unit
     @app.interpret_command("init 3 2")
     assert_equal 3, @app.shelving_unit.width
@@ -31,11 +36,25 @@ class TestSimpleWarehouse < Minitest::Test
     assert_equal "P", @app.shelving_unit.in_position(2,1).product_code
   end
 
-  def test_that_locate_command_shows_locations
+  def test_that_store_command_creates_correct_output
+    @app.interpret_command("init 3 2")
+    output = @app.interpret_command("store 1 1 2 1 P")
+    assert_equal "Crate of product P has been placed at coords 1, 1", output
+  end
+
+  def test_that_locate_command_shows_single_location
     @app.interpret_command("init 3 2")
     @app.interpret_command("store 1 1 2 1 P")
     output = @app.interpret_command("locate P")
     assert_equal "Product P can be found at the following locations: [x: 1, y: 1]", output
+  end
+
+  def test_that_locate_command_shows_multiple_locations
+    @app.interpret_command("init 3 2")
+    @app.interpret_command("store 1 1 2 1 P")
+    @app.interpret_command("store 0 0 1 1 P")
+    output = @app.interpret_command("locate P")
+    assert_equal "Product P can be found at the following locations: [x: 0, y: 0], [x: 1, y: 1]", output
   end
 
   def test_that_locate_command_shows_out_of_stock_message
@@ -58,5 +77,10 @@ class TestSimpleWarehouse < Minitest::Test
     @app.interpret_command("store 1 0 2 1 P")
     output = @app.interpret_command("view")
     assert_equal "|   |   |   |\n|   |   |   |\n|___|___|___|\n|   |   |   |\n|   | P | P |\n|___|___|___|", output
+  end
+
+  def test_exit_command_gives_goodbye_message
+    output = @app.interpret_command("exit")
+    assert_equal "Thank you for using simple_warehouse!", output
   end
 end

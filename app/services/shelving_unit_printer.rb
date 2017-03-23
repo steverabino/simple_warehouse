@@ -5,20 +5,28 @@ class ShelvingUnitPrinter
 
   def call
     output = ""
+
     @shelving_unit.representation.reverse.each do |row|
-      output += print_shelf_top
-      output += "|"
-      row.each do |column|
-        product_code = column.nil? ? " " : column.product_code
-        output += " #{product_code} |"
-      end
-      output += "\n"
-      output += print_shelf_bottom
+      output += print_row(row)
     end
+
     output.chop
   end
 
   private
+
+  def print_row(row)
+    output = print_shelf_top
+    output += "|"
+
+    row.each do |column|
+      product_code = column.nil? ? " " : column.product_code
+      output += " #{product_code} |"
+    end
+
+    output += "\n"
+    output += print_shelf_bottom
+  end
 
   def print_shelf_top
     output = "|"

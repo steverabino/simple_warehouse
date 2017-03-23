@@ -1,5 +1,3 @@
-# TODO: require_all gem may come in handy!
-
 require './app/models/shelving_unit'
 require './app/models/crate'
 require './app/services/crate_storer'
@@ -8,6 +6,8 @@ require './app/services/crate_remover'
 require './app/services/shelving_unit_printer'
 
 class SimpleWarehouse
+  attr_reader :shelving_unit
+
   def run
     @live = true
     puts 'Type `help` for instructions on usage'
@@ -41,10 +41,6 @@ class SimpleWarehouse
     ENV['testmode'] ? output : puts(output)
   end
 
-  def shelving_unit
-    @shelving_unit
-  end
-
   private
 
   def show_help_message
@@ -59,47 +55,46 @@ exit             Exits the application.'
 
   def create_empty_shelving_unit(args)
     @shelving_unit = ShelvingUnit.new(args[0].to_i, args[1].to_i)
-    return "Empty shelving unit of width: #{args[0]} and height: #{args[1]} created"
+    "Empty shelving unit of width: #{args[0]} and height: #{args[1]} created"
   end
 
   def store_crate(args)
     crate = Crate.new(args[0].to_i, args[1].to_i, args[2].to_i, args[3].to_i, args[4])
+
     if CrateStorer.new(@shelving_unit, crate).call
-      return "Crate of product #{args[4]} has been placed at coords #{args[0]}, #{args[1]}"
+      "Crate of product #{args[4]} has been placed at coords #{args[0]}, #{args[1]}"
     else
-      return "Invalid placement of crate; please try again."
+      "Invalid placement of crate; please try again."
     end
   end
 
   def locate_crate(args)
     locations = CrateLocator.new(@shelving_unit, args[0]).call
+
     if locations.empty?
-      return "We out out of stock of product #{args[0]}"
+      "We out out of stock of product #{args[0]}"
     else
-      location_output = ""
-      locations.each do |location|
-        location_output += "[x: #{location[0]}, y: #{location[1]}], "
-      end
-      return "Product #{args[0]} can be found at the following locations: #{location_output.chop.chop}"
+      "Product #{args[0]} can be found at the following locations: #{locations.join(', ')}"
     end
   end
 
   def remove_crate(args)
     crate = @shelving_unit.in_position(args[0].to_i, args[1].to_i)
+
     if crate.nil?
-      return "There is no product at location: [x: #{args[0]}, y: #{args[1]}]"
+      "There is no crate at location: [x: #{args[0]}, y: #{args[1]}]"
     else
       CrateRemover.new(@shelving_unit, crate).call
-      return "Product #{crate.product_code} removed from location [x: #{args[0]}, y: #{args[1]}] (crate origin: [x: #{crate.x}, y: #{crate.y}])"
+      "Product #{crate.product_code} removed from location [x: #{args[0]}, y: #{args[1]}] (crate origin: [x: #{crate.x}, y: #{crate.y}])"
     end
   end
 
   def show_unrecognized_message
-    return 'Command not found. Type `help` for instructions on usage'
+    'Command not found. Type `help` for instructions on usage'
   end
 
   def exit
     @live = false
-    return 'Thank you for using simple_warehouse!'
+    'Thank you for using simple_warehouse!'
   end
 end

@@ -6,6 +6,7 @@ class CrateLocator
 
   def call
     crates = []
+
     @shelving_unit.representation.each do |row|
       row.each do |column|
         unless column.nil?
@@ -13,8 +14,9 @@ class CrateLocator
         end
       end
     end
+
     crates.each.map do |crate|
-      crate = [crate.x, crate.y]
+      crate = "[x: #{crate.x}, y: #{crate.y}]"
     end
   end
 end
