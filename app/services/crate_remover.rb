@@ -6,7 +6,7 @@ class CrateRemover
 
   def call
     @crate.all_crate_coords.each do |coords|
-      @shelving_unit.representation[coords[:y]][coords[:x]] = nil
+      @shelving_unit.update_representation(coords, nil)
     end
   end
 end
