@@ -1,5 +1,15 @@
 # Simple Warehouse
 
+## Starting the Application
+
+To run the application from the command line, run:
+
+```
+ruby runner.rb
+```
+
+Once running, type `help` to get help on how to use the application 
+
 ## Requirements
 
 I started with a modular view of crates:
@@ -101,7 +111,7 @@ The full test suite can be run by `rake test` from the command line. Each model,
 - Ability to validate input
 - Add column/row numbers to printout of shelving rack (e.g. as I've done above in the readme)
 - Tests to make use of shared objects (fixtures), as they each use their own setup methods, which is causing a lot of repetition in the testing code.
-
+- Do not allow users to `store`, `locate`, `remove`, or `view` until after an `init` command is successfully run
 
 
 
