@@ -13,8 +13,8 @@ class Crate
     arr = []
 
     @height.times do |row|
-      @width.times do |column|
-        arr << { x: @x + column, y: @y + row }
+      @width.times do |cell|
+        arr << { x: @x + cell, y: @y + row }
       end
     end
 

@@ -8,9 +8,9 @@ class CrateLocator
     crates = []
 
     @shelving_unit.representation.each do |row|
-      row.each do |column|
-        unless column.nil?
-          crates |= [column] if column.product_code == @product_code
+      row.each do |cell|
+        unless cell.nil?
+          crates |= [cell] if cell.product_code == @product_code
         end
       end
     end

@@ -19,8 +19,8 @@ class ShelvingUnitPrinter
     output = print_shelf_top
     output += "|"
 
-    row.each do |column|
-      product_code = column.nil? ? " " : column.product_code
+    row.each do |cell|
+      product_code = cell.nil? ? " " : cell.product_code
       output += " #{product_code} |"
     end
 
