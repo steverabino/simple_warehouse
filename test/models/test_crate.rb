@@ -5,7 +5,7 @@ require './app/models/shelving_unit'
 class TestCrate < Minitest::Test
   def setup
     @shelving_unit = ShelvingUnit.new(2, 5)
-    @crate = Crate.new(0, 1, 2, 3, "P")
+    @crate = Crate.new(0, 1, 2, 3, "P", 20)
   end
 
   def test_that_crate_has_correct_x_value
@@ -26,6 +26,10 @@ class TestCrate < Minitest::Test
 
   def test_that_crate_has_correct_product_value
     assert_equal "P", @crate.product_code
+  end
+
+  def test_that_crate_has_correct_quantity
+    assert_equal 20, @crate.quantity
   end
 
   def test_that_crate_has_correct_all_coordinates

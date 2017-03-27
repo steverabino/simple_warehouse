@@ -59,7 +59,7 @@ exit             Exits the application.'
   end
 
   def store_crate(args)
-    crate = Crate.new(args[0].to_i, args[1].to_i, args[2].to_i, args[3].to_i, args[4])
+    crate = Crate.new(args[0].to_i, args[1].to_i, args[2].to_i, args[3].to_i, args[4], args[5].to_i)
 
     if CrateStorer.new(@shelving_unit, crate).call
       "Crate of product #{args[4]} has been placed at coords #{args[0]}, #{args[1]}"
