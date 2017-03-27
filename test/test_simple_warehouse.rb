@@ -8,7 +8,7 @@ class TestSimpleWarehouse < Minitest::Test
 
   def test_help_command_gives_help
     output = @app.interpret_command("help")
-    assert_includes output, "store X Y W H P  Stores a crate of product number P"
+    assert_includes output, "store X Y W H P Q  Stores a crate of a quantity of Q of product"
   end
 
   def test_that_init_command_creates_shelving_unit
@@ -70,6 +70,21 @@ class TestSimpleWarehouse < Minitest::Test
     output = @app.interpret_command("remove 2 1")
     assert_nil @app.shelving_unit.in_position(2, 1)
     assert_equal "Product P removed from location [x: 2, y: 1] (crate origin: [x: 1, y: 1])", output
+  end
+
+  def test_that_take_command_take_amount_of_product
+    @app.interpret_command("init 3 2")
+    @app.interpret_command("store 1 0 2 2 P 20")
+    output = @app.interpret_command("take 10 2 1")
+    assert_nil @app.shelving_unit.in_position(2, 1)
+    assert_equal "10 amount of product P removed successfully", output
+  end
+
+  def test_that_take_command_with_too_much_quantity_gives_error_message
+    @app.interpret_command("init 3 2")
+    @app.interpret_command("store 1 1 2 2 P 20")
+    output = @app.interpret_command("take 21 2 1")
+    assert_equal "Not enough quantity of stock to complete command", output
   end
 
   def test_print_command

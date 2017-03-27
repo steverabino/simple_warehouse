@@ -3,6 +3,7 @@ require './app/models/crate'
 require './app/services/crate_storer'
 require './app/services/crate_locator'
 require './app/services/crate_remover'
+require './app/services/crate_taker'
 require './app/services/shelving_unit_printer'
 
 class SimpleWarehouse
@@ -31,6 +32,8 @@ class SimpleWarehouse
       output = locate_crate(args)
     when 'remove'
       output = remove_crate(args)
+    when 'take'
+      output = take_from_crate(args)
     when 'view'
       output = @shelving_unit.print_to_screen
     when 'exit'
@@ -44,13 +47,14 @@ class SimpleWarehouse
   private
 
   def show_help_message
-    return 'help             Shows this help message
-init W H         (Re)Initialises the application as a W x H warehouse, with all spaces empty.
-store X Y W H P  Stores a crate of product number P and of size W x H at position X,Y.
-locate P         Show a list of positions where product number can be found.
-remove X Y       Remove the crate at positon X,Y.
-view             Show a representation of the current state of the warehouse, marking each position as filled or empty.
-exit             Exits the application.'
+    'help               Shows this help message
+init W H           (Re)Initialises the application as a W x H warehouse, with all spaces empty.
+store X Y W H P Q  Stores a crate of a quantity of Q of product number P and of size W x H at position X,Y.
+locate P           Show a list of positions where product number can be found.
+remove X Y         Remove the crate at positon X,Y.
+take Q X Y         Take out Q number of the product in crate at position X,Y.
+view               Show a representation of the current state of the warehouse, marking each position as filled or empty.
+exit               Exits the application.'
   end
 
   def create_empty_shelving_unit(args)
@@ -88,6 +92,16 @@ exit             Exits the application.'
       "Product #{crate.product_code} removed from location [x: #{args[0]}, y: #{args[1]}] (crate origin: [x: #{crate.x}, y: #{crate.y}])"
     end
   end
+
+  def take_from_crate(args)
+    crate = @shelving_unit.in_position(args[1].to_i, args[2].to_i)
+    if CrateTaker.new(@shelving_unit, crate, args[0].to_i).call
+      "#{args[0]} amount of product #{crate.product_code} removed successfully"
+    else
+      "Not enough quantity of stock to complete command"
+    end
+  end
+
 
   def show_unrecognized_message
     'Command not found. Type `help` for instructions on usage'

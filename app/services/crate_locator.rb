@@ -16,6 +16,5 @@ class CrateLocator
     end
 
     crates
-
   end
 end
