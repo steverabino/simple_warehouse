@@ -8,7 +8,7 @@ require './app/services/shelving_unit_printer'
 class TestCratePrinter < Minitest::Test
   def setup
     @shelving_unit = ShelvingUnit.new(3, 2)
-    @crate = Crate.new(1, 0, 2, 1, "P")
+    @crate = Crate.new(1, 0, 2, 1, "P", 20)
     CrateStorer.new(@shelving_unit, @crate).call
   end
 

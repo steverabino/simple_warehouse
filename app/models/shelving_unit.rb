@@ -29,5 +29,4 @@ class ShelvingUnit
   def get_empty_representation(width, height)
     Matrix.build(height, width) { nil }.to_a
   end
-
 end

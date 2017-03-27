@@ -8,7 +8,7 @@ require './app/services/crate_storer'
 class TestCrateRemover < Minitest::Test
   def setup
     @shelving_unit = ShelvingUnit.new(3, 3)
-    @crate = Crate.new(1, 0, 2, 1, "P")
+    @crate = Crate.new(1, 0, 2, 1, "P", 20)
     CrateStorer.new(@shelving_unit, @crate).call
   end
 
@@ -19,7 +19,7 @@ class TestCrateRemover < Minitest::Test
   end
 
   def test_that_other_crates_of_same_product_code_are_not_removed
-    crate = Crate.new(0, 2, 2, 1, "P")
+    crate = Crate.new(0, 2, 2, 1, "P", 20)
     CrateStorer.new(@shelving_unit, crate).call
     CrateRemover.new(@shelving_unit, @crate).call
     assert_equal @shelving_unit.in_position(0, 2), crate
