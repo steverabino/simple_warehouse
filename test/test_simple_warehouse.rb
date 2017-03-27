@@ -46,7 +46,7 @@ class TestSimpleWarehouse < Minitest::Test
     @app.interpret_command("init 3 2")
     @app.interpret_command("store 1 1 2 1 P")
     output = @app.interpret_command("locate P")
-    assert_equal "Product P can be found at the following locations: [x: 1, y: 1]", output
+    assert_equal "Product P can be found at the following locations: [x: 1, y: 1], [x: 2, y: 1]", output
   end
 
   def test_that_locate_command_shows_multiple_locations
@@ -54,7 +54,7 @@ class TestSimpleWarehouse < Minitest::Test
     @app.interpret_command("store 1 1 2 1 P")
     @app.interpret_command("store 0 0 1 1 P")
     output = @app.interpret_command("locate P")
-    assert_equal "Product P can be found at the following locations: [x: 0, y: 0], [x: 1, y: 1]", output
+    assert_equal "Product P can be found at the following locations: [x: 0, y: 0], [x: 1, y: 1], [x: 2, y: 1]", output
   end
 
   def test_that_locate_command_shows_out_of_stock_message

@@ -7,16 +7,15 @@ class CrateLocator
   def call
     crates = []
 
-    @shelving_unit.representation.each do |row|
-      row.each do |cell|
+    @shelving_unit.representation.each_with_index do |row, ri|
+      row.each_with_index do |cell, ci|
         unless cell.nil?
-          crates |= [cell] if cell.product_code == @product_code
+          crates << "[x: #{ci}, y: #{ri}]" if cell.product_code == @product_code
         end
       end
     end
 
-    crates.each.map do |crate|
-      crate = "[x: #{crate.x}, y: #{crate.y}]"
-    end
+    crates
+
   end
 end
